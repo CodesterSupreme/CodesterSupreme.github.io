@@ -166,7 +166,7 @@
 			
 			  <a href="#" class="w3-bar-item w3-button">Design Methodology</a>
 			  <a href="https://en.wikipedia.org/wiki/1854_Broad_Street_cholera_outbreak" class="w3-bar-item w3-button">History</a>
-			  <a href="sample.html" class="w3-bar-item w3-button">Information</a>
+			  <a href="../about.html" class="w3-bar-item w3-button">Information</a>
 		</div>
 	
 	
@@ -178,7 +178,7 @@
 	
 	
 
-	
+	<!-- the switch pane for gender and Age  -->
 	<div style="margin: 12px; display: flex; justify-content: space-evenly;">
 		<div  style="display: inline; ">
 			Show Age
@@ -189,6 +189,8 @@
 		  Show Gender
 		  
 		</div> 
+		
+		<!-- Filter for timeline graph  -->
 		<div  style="display: inline; ">
 			<div id="startDate"  style="display: inline; width: 900px; text-align: right">Start Date: </div>
         	<div id="endDate"  style="display: inline; width: 900px; text-align: right">End Date:  </div>
@@ -198,17 +200,22 @@
 		
 		<div style="margin-left:16%">
 		
+		<!-- main svg  -->
 		<svg id="main" width="500" height="500">
 		</svg>
 		
+		<!-- timeline svg  -->
 		<svg id="timeline">
 		</svg>
 		<div style="margin-left:16%; margin-top:20px;">
 			<button id="button1">Reset</button>
 		</div>
+		
+		<!-- legend svg  -->
 		<svg id="map_legend">
 			</svg>
 
+		<!-- pie chart svg  -->
 		<svg id="pieChart" style="padding: 19px;">
 				</svg>
 	</div>
@@ -219,7 +226,7 @@
 	
 	<script>
 
-
+	<!-- Global Varibales  -->
 	var CHART_WIDTH = 600;
 	var CHART_HEIGHT = 570;
 	var MAX_BAR_HEIGHT = 100;
@@ -247,6 +254,7 @@
 	var workhouseColor= '#e66100'; //potato
 
 
+	// filter function 
 	function dropdown(data){
   dataset = d3.nest().key(function(d) { return d.date;
                             }).entries(data)
@@ -271,9 +279,10 @@
 
           }
        
-          mydropDown(dataset , "startDate");
-          mydropDown(dataset.reverse(), "endDate")
-
+          mydropDown(dataset , "startDate"); // pick first date for start date
+          mydropDown(dataset.reverse(), "endDate") // pick last date as default for end date
+			
+			// start date to filter data on 
           d3.select("#startDate select")
             .on("change",function(d){
                     start =  this.options[this.selectedIndex].text
@@ -281,7 +290,7 @@
 					draw_timeline(start , endD , death_date)
 					
 })
-
+			// end date to filter data on
           d3.select("#endDate select")
             .on("change",function(d){
                    endD =  this.options[this.selectedIndex].text
@@ -294,10 +303,13 @@
 	 function drawLineChart(data) 
 		{
         
+		
         var mapSVG = d3.select("#main")
-      
         var child = mapSVG.append("g").attr('id' , 'street_map')
 
+		
+		//test
+		// zoom feature
         mapSVG.call(d3.behavior.zoom()
             .translate ([0, 0])
             .scale (1.0)
@@ -324,7 +336,9 @@
 		  .style("stroke-width","1px") // Street line width 
 		  .attr('d', pathGen(d)); // plot
             })
-
+		
+		
+		// zoom event listener
 		document.getElementById("button1").addEventListener("click", function(){
 			child.attr("transform","translate(" + 0 + "," +  0 + ") scale(" +  1 + ")");
 			mapSVG.call(d3.behavior.zoom()
@@ -345,6 +359,8 @@
 	
 	function draw_pumps(pumps_array) 
 		{
+		// drawing pumps and streets and main points of interests
+		
 		const xScale = d3.scale.linear()
 		.domain([0, 100])
 		.range([0, CHART_WIDTH]) // our chart width
@@ -361,7 +377,7 @@
 		d3.select("#street_map").selectAll("dot")
 		.data(pumps_array)
 	    .enter().append("circle")
-			.attr("cx", function(d) { return CHART_WIDTH - d.x * 30;})
+			.attr("cx", function(d) { return CHART_WIDTH - d.x * 30;}) // using same translation function as the deaths
     		.attr('cy', function(d) { return CHART_HEIGHT - d.y * 30;})
 			.attr("r", 5)
 			.style("fill", pumpColor)
@@ -369,10 +385,7 @@
 
         //Add brewery
         const breweryLocations = [
-            //{x: 5.8, y: 13.7},
-            //{x: 17.5, y:15.6}
-			
-			{x: 13.95, y: 11.81}
+			{x: 13.95, y: 11.81} // guesswork tested over several iterations
         ]
 
         d3.select("#street_map").selectAll("dot")
@@ -386,9 +399,8 @@
         
          //Add work houses
         const workhouseLocations = [
-			
-
-            {x: 11.58801, y: 13.1}
+		
+            {x: 11.58801, y: 13.1} // guesswork tested over several iterations
             
         ]
 
@@ -401,33 +413,39 @@
 			.style("fill", breweyColor)
 			.attr('stroke' , 'black')
 
-		
-		
-		
-		
         //add street name
         d3.select("#street_map").append("text")
-			.attr("x", 4)
-			.attr("y",-7)
+			//.attr("x", 4)
+			.attr("x",  function(d) { return CHART_WIDTH - 19.87 * 30;}) //4
+			.attr("y", function(d) { return CHART_WIDTH - 20.23* 30;}) // -7
 			.attr("dy", ".35em")
 			.style("text-anchor", "start")
 			.text('Oxford Road')
             .attr('transform',"translate(220 60) rotate(10)")
-            .attr('fill' , 'steelblue')
-            .attr('stroke' , 'steelblue')
+            .attr('fill' , '#dc3220')
+            .attr('stroke' , '#dc3220')
 		
 		//add street name
         d3.select("#street_map").append("text")
-			.attr("x", 88)
-			.attr("y",240)
+			.attr("x",  function(d) { return CHART_WIDTH - 16.7 * 30;}) // 99
+			.attr("y", function(d) { return CHART_WIDTH - 12* 30;}) // 240
 			.attr("dy", ".35em")
 			.style("text-anchor", "start")
 			.text('Brewer Street')
             .attr('transform',"translate(230 70) rotate(40)")
-            .attr('fill' , 'steelblue')
-            .attr('stroke' , 'steelblue')
+            .attr('fill' , '#dc3220')
+            .attr('stroke' , '#dc3220')
 		
-        
+         //add street name
+        d3.select("#street_map").append("text")
+			.attr("x",  function(d) { return CHART_WIDTH - 16.9 * 30;}) //.attr("x", 93) //5
+			.attr("y", function(d) { return CHART_WIDTH - 21.3* 30;}) // 24
+			.attr("dy", ".35em")
+			.style("text-anchor", "start")
+			.text('Regent Road')
+            .attr('transform',"translate(330 410) rotate(300)")
+            .attr('fill' , '#dc3220')
+            .attr('stroke' , '#dc3220')
             
          //add street name
         d3.select("#street_map").append("text")
@@ -437,18 +455,18 @@
 			.style("text-anchor", "start")
 			.text('Dean Street')
             .attr('transform',"translate(330 410) rotate(294)")
-            .attr('fill' , 'steelblue')
-            .attr('stroke' , 'steelblue') 
+            .attr('fill' , '#dc3220')
+            .attr('stroke' , '#dc3220') 
 		   
 		d3.select("#street_map").append("text")
 			.attr("x", function(d) { return CHART_WIDTH - 15.2 * 30;})
 			.attr("y", function(d) { return CHART_WIDTH - 32.5* 30;})
 			.attr("dy", ".35em")
 			.style("text-anchor", "start")
-			.text('Soho Sq')
+			.text('Soho Square')
             .attr('transform',"translate(330 410) rotate(294)")
-            .attr('fill' , 'steelblue')
-            .attr('stroke' , 'steelblue') 
+            .attr('fill' , '#dc3220')
+            .attr('stroke' , '#dc3220') 
 		     
 	
 	}
@@ -456,6 +474,8 @@
 	
 	function draw_deaths(number , startNum , data) 
 		{
+		
+		//filter data if the filter function has been used, i.e. filter flag = True
 		d3.selectAll('#deaths').remove()
 		if(dataFilter == true){
 			console.log(startNum-1 , '-' , data.length)
@@ -479,7 +499,6 @@
 		.y(d => yScale(d.y))
 
 
-		
 		g=d3.select("#street_map").selectAll("dot")
 		.data(data)
 	    .enter().append("circle")
