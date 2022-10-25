@@ -132,8 +132,8 @@ html {
 
 <h2 style="text-align:left">Initial Assessment </h2>
    <p> Given the small amount of exposure outside the curated list of tutorials done in class, I had a good understanding of what component I needed to build but 
-   not a vert good understanding of how it needs to be done. As part of requirement gathering I created a list of features that was mentioned in the project description
-   and created a priority order based on what all I could do easily such as (screen layout, navigation bar, top bar). I categorized the follwoing requirements into two groups:
+   not a very good understanding of how it needs to be done. As part of requirement gathering I created a list of features that was mentioned in the project description
+   and created a priority order based on what all I could do easily such as (screen layout, navigation bar, top bar) vs what I felt was a bit harder to accomplish.I categorized the follwoing requirements into two groups:
    
    
    <p><span class="clear">I had a good initial understanding on how this can be done:</span>
@@ -153,13 +153,13 @@ html {
    
    <p><span class="unclear">But I was unsure about how these could be done and hence would need to look up resources:</span>
 	<ol class="l2">
-	<li>ability to move the mouse over the timeline graph to choose which day to visualize - this should affect the deaths visible on the map and in the graph - at minimum all cholera deaths prior to that date should be shown on the map and the graph</li>
-    <li>ability to show data from a window of days on the timeline graph</li>
-	<li>the graph and the map should be stable (i.e., they should not move when new data is added or removed)</li>
-	<li>the map and graph should update quickly when the user interacts</li>
-	<li>ability to cluster the data on the map into a grid that shows the number of dead in each grid cell (even with this small amount of data the points are starting to overwhelm) and the user should be able to vary the size of the clusters.</li>
-	<li>ability to show data from a window of days on the timeline graph</li>
-	<li>ability to zoom in/out and pan around the map</li></ul>	
+	<li>Ability to move the mouse over the timeline graph to choose which day to visualize - this should affect the deaths visible on the map and in the graph - at minimum all cholera deaths prior to that date should be shown on the map and the graph</li>
+    <li>Ability to show data from a window of days on the timeline graph</li>
+	<li>The graph and the map should be stable (i.e., they should not move when new data is added or removed)</li>
+	<li>The map and graph should update quickly when the user interacts</li>
+	<li>Ability to cluster the data on the map into a grid that shows the number of dead in each grid cell (even with this small amount of data the points are starting to overwhelm) and the user should be able to vary the size of the clusters.</li>
+	<li>Ability to show data from a window of days on the timeline graph</li>
+	<li>Ability to zoom in/out and pan around the map</li></ul>	
 </ol>
    
 Apart from these I also wanted certain design features to be central to my visualization:
@@ -176,30 +176,30 @@ Apart from these I also wanted certain design features to be central to my visua
 <p>
 The first task was to get the streets plotted, followed by deaths. The source code to read csv and json data was leveraged from the class tutorials by Dr. Reda and modified accordingly for 
 each input file. The timeline chart however was relatively easier but had to be modified several times later due to filter methods being added later. The street labels were the hardest to map as the map
-I had plotted was flipped 180 degrees and since it was too late in the project I decided to  fix the street signs as if the actual map is flipped but all points of interests are accurately plotted.
+I had plotted was flipped 180 degrees and since it was too late in the project I decided to fix the street signs as if the actual map is flipped but all points of interests are accurately plotted.
 </p>
 
 
 <p>
 To avoid clutter and overlapping text with dots, I decided to mark key areas such as brewery and work house with colored distinctive icons as compared to text based annotations. The icons vary in radius
 and color so that they are clearly visible and marked on the map legend. Over the development cycle, I added zoom and pan but often found it confusing to know where my SVG ends and how to get the map 
-back to initial stage. So i added clear boundaries and added a reset button as well to reset the zoom and pan settings. 
+back to initial stage. So I added clear boundaries and added a reset button as well to reset the zoom and pan settings. 
 </p>
 
 <p>
 For color selection I really wanted to go with a color palette that was largely accessible. I came across  <a href =https://davidmathlogic.com/colorblind/#%23E1BE6A-%2340B0A6 > David math logic blog</a> where 
 he provides an array of options that are contrasting and distinct for most types of color blindness including protanopia, deuteranopia, or tritanopia. So i decided to choose this for my gender map
- having two distinct classes. Similarly for the age map which had 6 classes I experimented with sequential colors but on a white background the light colors were hard to notice so i went ahead
+ having two distinct classes. Similarly for the age map which had 6 classes I experimented with sequential colors but on a white background the light colors were hard to notice so I went ahead
  with diverging colors which gave me better results. 
 
 </p>
 
 <p>
 
-Given the relatively low expereince with D3, the entire project was made with a "Fail fast fail often" approach where i tried a bunch of methods to do a certain task and if i couldn't figure it out in a day or so then
-I would start looking for other methods to do it for eg: I was unsure about how x,y coordinates would be translated onto the SVG and i started by using an event clicker to find location of click
-and reverse engineer the formula to get from x,y points to svg coordinates. It did not work the way i had hoped so i had to look for reference on how other people have translated such maps. Overall
-I'm quite happy with the final product as i was able to create an app that matches a clear majority of the requirements specified but also goes ahead on some of the objectives such as adding a slider button
+Given the relatively low expereince with D3, the entire project was made with a "Fail fast fail often" approach where I tried a bunch of methods to do a certain task and if I couldn't figure it out in a day or so then
+I would start looking for other methods to do it for eg: I was unsure about how x,y coordinates would be translated onto the SVG and I started by using an event clicker to find location of click
+and reverse engineer the formula to get from x,y points to svg coordinates. It did not work the way i had hoped so I had to look for reference on how other people have translated such maps. Overall
+I'm quite happy with the final product as I was able to create an app that matches a clear majority of the requirements specified but also goes ahead on some of the objectives such as adding a slider button
 for age and gender on the same map, improving user experience by adding zoom reset buttons, adding interactivity with timeline which also works with filters. 
 
 </p>
